@@ -10,16 +10,24 @@ import java.util.List;
 
 public abstract class Pokemon
 {
-    private PropertyID ID = new PropertyID();
-    private PropertyType type = new PropertyType();
-    private PropertyEXP exp = new PropertyEXP();
-    private PropertyBattleStats battleStats = new PropertyBattleStats(this);
-    private PropertyEnergy energy = new PropertyEnergy();
-    protected PropertyMoves moves = new PropertyMoves();
-    protected PropertyEffectiveness typeEff = new PropertyEffectiveness();
+    private PropertyID ID;
+    private PropertyType type;
+    private PropertyEXP exp;
+    private PropertyBattleStats battleStats;
+    private PropertyEnergy energy;
+    protected PropertyMoves moves;
+    protected PropertyEffectiveness typeEff;
 
     public Pokemon(String name, int pokedex, int gen)
     {
+        ID = new PropertyID(this);
+        type = new PropertyType(this);
+        exp = new PropertyEXP(this);
+        battleStats = new PropertyBattleStats(this);
+        energy = new PropertyEnergy(this);
+        moves = new PropertyMoves(this);
+        typeEff = new PropertyEffectiveness(this);
+
         this.ID.set(name, pokedex, gen);
     }
 
@@ -39,15 +47,20 @@ public abstract class Pokemon
      */
     public void useAttack(Pokemon opponent, int index)
     {
-        Move chosenMove = this.moves.getMoveSet().get(index);
-        this.moves.updateAvailableMoves(this.getLevel());
+        //User must be alive & the move must exist in their moveset
+        assert this.battleStats.getStat(EnumStats.HP) > 0;
+        assert this.moves.getMoveSet().size() > index;
 
+        Move chosenMove = this.moves.getMoveSet().get(index);
+
+        //User must have enough energy to use the move
         if(this.energy.get() < chosenMove.getEnergyDrain())
         {
             System.out.println("Cannot use move due to low energy");
             return;
         }
 
+        this.moves.updateAvailableMoves(this.getLevel());
         chosenMove.use(this, opponent);
         this.energy.decr(chosenMove.getEnergyDrain());
         System.out.println(this.getName() + " used " + chosenMove.getName() + " on " + opponent.getName() + "!");
@@ -58,10 +71,10 @@ public abstract class Pokemon
      */
     public void initMoves()
     {
-        for(Move m : this.moves.getAllMoves().keySet()) if(this.moves.getAllMoves().get(m) == 1) this.moves.learnMove(this, m);
+        for(Move m : this.moves.getAllMoves().keySet()) if(this.moves.getAllMoves().get(m) == 1) this.moves.learnMove(m);
     }
 
-    public void setDefaultStats(Type typeA, Type typeB, int baseHP, int baseATK, int baseDEF, int baseSPATK, int baseSPDEF, int baseSPD, int maxEnergy)
+    public void setDefaultStats(Type typeA, Type typeB, int baseHP, int baseATK, int baseDEF, int baseSPATK, int baseSPDEF, int baseSPD, double maxEnergy)
     {
         this.type.set(typeA, typeB);
         this.battleStats.setInitialStats(baseHP, baseATK, baseDEF, baseSPATK, baseSPDEF, baseSPD);

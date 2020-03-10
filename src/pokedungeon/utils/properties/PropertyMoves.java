@@ -14,9 +14,9 @@ public class PropertyMoves extends PropertyBase
     private final List<Move> moveSet = new ArrayList<>();
     private final List<Move> availableMoves = new ArrayList<>();
 
-    public PropertyMoves()
+    public PropertyMoves(Pokemon owner)
     {
-        super("Moves");
+        super("Moves", owner);
     }
 
     public void addMove(Move m, int level)
@@ -24,17 +24,17 @@ public class PropertyMoves extends PropertyBase
         this.allMoves.put(m, level);
     }
 
-    public void learnMove(Pokemon p, Move m)
+    public void learnMove(Move m)
     {
         Scanner sc = new Scanner(System.in);
-        if(!this.allMoves.containsKey(m)) throw new IllegalArgumentException(p.getName() + " can not learn the move " + m.getName());
+        if(!this.allMoves.containsKey(m)) throw new IllegalArgumentException(this.owner.getName() + " can not learn the move " + m.getName());
         else if(this.moveSet.contains(m))
         {
-            System.out.println(p.getName() + " already knows the move " + m.getName());
+            System.out.println(this.owner.getName() + " already knows the move " + m.getName());
             return;
         }
 
-        if(p.getLevel() >= this.allMoves.get(m))
+        if(this.owner.getLevel() >= this.allMoves.get(m))
         {
             if(this.moveSet.size() == 4)
             {

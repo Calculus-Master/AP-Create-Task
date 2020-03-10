@@ -8,16 +8,14 @@ import java.util.Random;
 
 public class PropertyBattleStats extends PropertyBase
 {
-    private Pokemon pokemon;
     private final HashMap<EnumStats, Integer> baseStats = new HashMap<>();
     private final HashMap<EnumStats, Integer> statIVs = new HashMap<>();
 
     private int health, attack, defense, special_attack, special_defense, speed;
 
-    public PropertyBattleStats(Pokemon pokemon)
+    public PropertyBattleStats(Pokemon owner)
     {
-        super("Battle Stats");
-        this.pokemon = pokemon;
+        super("Battle Stats", owner);
         this.assignIVs();
     }
 
@@ -65,9 +63,9 @@ public class PropertyBattleStats extends PropertyBase
     private int statFormula(EnumStats s)
     {
         //Equation for calculating HP: ((2 * Base + IV) * Level) / 100 + Level + 10
-        int newHP = (((2 * this.baseStats.get(s) + this.getIV(s)) * this.pokemon.getLevel()) / 100) + this.pokemon.getLevel() + 10;
+        int newHP = (((2 * this.baseStats.get(s) + this.getIV(s)) * this.owner.getLevel()) / 100) + this.owner.getLevel() + 10;
         //Equation for other stats: [ ((2 * Base + IV) * Level) / 100 + 5 ] * nature (NYI)
-        int newStat = (((2 * this.baseStats.get(s) + this.getIV(s)) * this.pokemon.getLevel()) / 100 + 5);
+        int newStat = (((2 * this.baseStats.get(s) + this.getIV(s)) * this.owner.getLevel()) / 100 + 5);
 
         return s.equals(EnumStats.HP) ? newHP : newStat;
     }

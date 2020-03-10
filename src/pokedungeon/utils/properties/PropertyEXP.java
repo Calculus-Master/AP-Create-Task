@@ -1,5 +1,7 @@
 package pokedungeon.utils.properties;
 
+import pokedungeon.pkmn.Pokemon;
+
 public class PropertyEXP extends PropertyBase
 {
     private int currentLevel = 1;
@@ -7,14 +9,40 @@ public class PropertyEXP extends PropertyBase
 
     private int currentEXP = 0;
 
-    public PropertyEXP()
+    public PropertyEXP(Pokemon owner)
     {
-        super("Experience");
+        super("Experience", owner);
     }
 
-    public int getEXP()
+    public void addEXP(int amount)
     {
-        return this.currentEXP;
+        if(this.currentLevel == 100) return;
+
+        this.currentEXP += amount;
+        this.levelUp();
+    }
+
+    public void levelUp()
+    {
+        if(this.canLevel())
+        {
+            this.currentEXP -= this.getRequiredEXPLevel(this.currentLevel + 1);
+            this.currentLevel++;
+
+            this.outVals();
+
+            if(this.canLevel()) this.levelUp();
+        }
+    }
+
+    private boolean canLevel()
+    {
+        return this.currentEXP >= this.getRequiredEXPLevel(this.currentLevel + 1);
+    }
+
+    private int getRequiredEXPLevel(int level)
+    {
+        return (level * 2) + 1;
     }
 
     public int getLevel()
@@ -22,33 +50,17 @@ public class PropertyEXP extends PropertyBase
         return this.currentLevel;
     }
 
-    public void addEXP(int amount)
+    public int getEXP()
     {
-        this.currentEXP += amount;
-
-        int xp = this.currentEXP;
-        for(int i = 2; i <= maxLevel; i++)
-        {
-            if(xp >= this.reqXP(i))
-            {
-                levelUp();
-                xp -= this.reqXP(i);
-            }
-            else return;
-        }
-    }
-
-    private int reqXP(int lvl)
-    {
-        return (lvl - 1) * 2;
-    }
-
-    private void levelUp()
-    {
-        if(this.currentLevel < this.maxLevel) this.currentLevel++;
+        return this.currentEXP;
     }
 
     //DEBUG ONLY
+    private void outVals()
+    {
+        System.out.println("Level: " + this.currentLevel + ", EXP: " + this.currentEXP + ", EXP for Next Level: " + this.getRequiredEXPLevel(1 + this.currentLevel));
+    }
+
     public void setLevel(int level)
     {
         this.currentLevel = level;

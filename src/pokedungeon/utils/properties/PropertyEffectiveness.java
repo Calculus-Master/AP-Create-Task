@@ -11,9 +11,9 @@ public class PropertyEffectiveness extends PropertyBase
 {
     private HashMap<Type, Double> typeEff = new HashMap<>();
 
-    public PropertyEffectiveness()
+    public PropertyEffectiveness(Pokemon owner)
     {
-        super("Type Effectiveness");
+        super("Type Effectiveness", owner);
         this.createBaseMap();
     }
 

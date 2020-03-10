@@ -3,14 +3,10 @@ package pokedungeon.pkmn;
 import pokedungeon.attacks.MoveDB;
 import pokedungeon.utils.Global;
 import pokedungeon.utils.enums.Type;
+import pokedungeon.utils.interfaces.IEnergyValues;
 
-public class PKMNDB
+public class PKMNDB implements IEnergyValues
 {
-    private static final int basicEnergy = 100;
-    private static final int evo1Energy = basicEnergy * 2;
-    private static final int evo2Energy = evo1Energy * 2;
-    private static final int legendEnergy = evo2Energy * 2;
-
     public static void init()
     {
         EnumPokemon.INITIALIZE.toString();
@@ -59,7 +55,7 @@ public class PKMNDB
         public Bulbasaur()
         {
             super("Bulbasaur", 1, 1);
-            this.setDefaultStats(Type.GRASS, Type.POISON, 45, 49, 49, 65, 65, 45, basicEnergy);
+            this.setDefaultStats(Type.GRASS, Type.POISON, 45, 49, 49, 65, 65, 45, BASIC_ENERGY);
 
             this.moves.addMove(MoveDB.GROWL, 1);
             this.moves.addMove(MoveDB.TACKLE, 1);
@@ -82,7 +78,7 @@ public class PKMNDB
         public Ivysaur()
         {
             super("Ivysaur", 2, 1);
-            this.setDefaultStats(Type.GRASS, Type.POISON, 60, 62, 63, 80, 80, 60, evo1Energy);
+            this.setDefaultStats(Type.GRASS, Type.POISON, 60, 62, 63, 80, 80, 60, STAGE1_ENERGY);
 
             this.moves.addMove(MoveDB.GROWL, 1);
             this.moves.addMove(MoveDB.TACKLE, 1);
@@ -97,7 +93,7 @@ public class PKMNDB
         public Venusaur()
         {
             super("Venusaur", 3, 1);
-            this.setDefaultStats(Type.GRASS, Type.POISON, 80, 82, 83, 100, 100, 80, evo2Energy);
+            this.setDefaultStats(Type.GRASS, Type.POISON, 80, 82, 83, 100, 100, 80, STAGE2_ENERGY);
 
             this.moves.addMove(MoveDB.GROWL, 1);
             this.moves.addMove(MoveDB.TACKLE, 1);

@@ -1,15 +1,20 @@
 package pokedungeon.utils.properties;
 
+import pokedungeon.pkmn.Pokemon;
 import pokedungeon.utils.enums.Type;
+
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Set;
 
 public class PropertyType extends PropertyBase
 {
     private Type typeA;
     private Type typeB;
 
-    public PropertyType()
+    public PropertyType(Pokemon owner)
     {
-        super("Type");
+        super("Type", owner);
     }
 
     public void set(Type typeA, Type typeB)
@@ -18,18 +23,8 @@ public class PropertyType extends PropertyBase
         this.typeB = typeB;
     }
 
-    public Type getA()
+    public Set<Type> get()
     {
-        return this.typeA;
-    }
-
-    public Type getB()
-    {
-        return this.typeB;
-    }
-
-    public Type[] get()
-    {
-        return new Type[]{this.typeA, this.typeB};
+        return new HashSet<>(Arrays.asList(this.typeA, this.typeB));
     }
 }

@@ -1,14 +1,16 @@
 package pokedungeon.utils.properties;
 
+import pokedungeon.pkmn.Pokemon;
+
 public class PropertyID extends PropertyBase
 {
     private String name;
     private int pokedex;
     private int gen;
 
-    public PropertyID()
+    public PropertyID(Pokemon owner)
     {
-        super("Name & Pokedex Number");
+        super("Identification Info", owner);
     }
 
     public void set(String name, int pokedex, int gen)
