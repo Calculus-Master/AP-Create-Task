@@ -23,6 +23,7 @@ public abstract class Pokemon
     private PropertyEnergy energy;
     protected PropertyMoves moves;
     protected PropertyEffectiveness typeEff;
+    private PropertyStatusConditions statusConditions;
 
     public Pokemon(String name, int pokedex, int gen)
     {
@@ -31,6 +32,7 @@ public abstract class Pokemon
         energy = new PropertyEnergy(this);
         moves = new PropertyMoves(this);
         typeEff = new PropertyEffectiveness(this);
+        statusConditions = new PropertyStatusConditions(this);
 
         this.name = name;
         this.pokedexNum = pokedex;
@@ -51,6 +53,7 @@ public abstract class Pokemon
     public void useAttack(Pokemon opponent)
     {
         assert !this.isFainted() && !opponent.isFainted() : "One of the Battling Pokemon is Fainted";
+        assert !this.statusConditions.isAsleep && !this.statusConditions.isConfused;
 
         System.out.println(this.getName() + " can use any of these moves: " + Global.asString(this.getMoveSet()));
         int index = (new Scanner(System.in)).nextInt() - 1;
@@ -66,11 +69,14 @@ public abstract class Pokemon
             return;
         }
 
+        boolean acc = chosenMove.isAccurate();
+
         this.moves.updateAvailableMoves(this.getLevel());
-        chosenMove.use(this, opponent);
+        if(acc) chosenMove.use(this, opponent);
         this.energy.decr(chosenMove.getEnergyDrain());
 
-        System.out.println(this.getName() + Global.wrapHP(this) + "used " + chosenMove.getName() + " on " + opponent.getName() + Global.wrapHP(opponent) + "!");
+        if(acc) System.out.println(this.getName() + " missed using " + chosenMove.getName() + "!");
+        else System.out.println(this.getName() + Global.wrapHP(this) + "used " + chosenMove.getName() + " on " + opponent.getName() + Global.wrapHP(opponent) + "!");
     }
 
     /**
@@ -112,6 +118,11 @@ public abstract class Pokemon
     public PropertyEffectiveness typeEff()
     {
         return this.typeEff;
+    }
+
+    public PropertyStatusConditions statusConditions()
+    {
+        return this.statusConditions;
     }
 
     //Misc Utility Methods
