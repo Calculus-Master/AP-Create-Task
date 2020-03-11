@@ -2,6 +2,7 @@ package pokedungeon.utils.properties;
 
 import pokedungeon.pkmn.Pokemon;
 import pokedungeon.utils.enums.EnumStats;
+import pokedungeon.attacks.Move;
 
 public class PropertyEXP extends PropertyBase
 {
@@ -17,15 +18,13 @@ public class PropertyEXP extends PropertyBase
 
     public void addEXP(int amount)
     {
-        if(this.currentLevel == 100) return;
-
         this.currentEXP += amount;
         this.levelUp();
     }
 
     public void levelUp()
     {
-        if(this.canLevel())
+        if(this.canLevel() && this.currentLevel < 100)
         {
             this.currentEXP -= this.getRequiredEXPLevel(this.currentLevel + 1);
             this.currentLevel++;
@@ -34,6 +33,11 @@ public class PropertyEXP extends PropertyBase
 
             this.owner.stats().updateStat(EnumStats.HP);
             this.owner.stats().updateAllStats();
+
+						for(Move m : this.owner.moves().getAllMoves().keySet())
+						{
+							if(this.owner.moves().getAllMoves().get(m) == this.currentLevel) this.owner.moves().learnMove(m);
+						}
 
             if(this.canLevel()) this.levelUp();
         }

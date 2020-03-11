@@ -27,14 +27,17 @@ public class PropertyBattleStats extends PropertyBase
 
     public void decrHP(double fraction)
     {
-        int maxHealth = (((2 * this.baseStats.get(EnumStats.HP) + this.getIV(EnumStats.HP)) * this.owner.getLevel()) / 100) + this.owner.getLevel() + 10;
-
-        this.decrHP(fraction * maxHealth);
+         this.decrHP(fraction * this.getMaxHealth());
     }
 
     public void incrHP(int amount)
     {
         this.health = Math.min(this.health + amount, this.statFormula(EnumStats.HP));
+    }
+
+    public int getMaxHealth()
+    {
+      return  (((2 * this.baseStats.get(EnumStats.HP) + this.getIV(EnumStats.HP)) * this.owner.getLevel()) / 100) + this.owner.getLevel() + 10;
     }
 
     public void updateStat(EnumStats s)
