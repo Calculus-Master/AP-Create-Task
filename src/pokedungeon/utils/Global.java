@@ -24,6 +24,9 @@ public class Global
     public static final List<PKMNDB.EnumPokemon> GEN_7 = new ArrayList<>();
     public static final List<PKMNDB.EnumPokemon> GEN_8 = new ArrayList<>();
 
+    public static final List<PKMNDB.EnumPokemon> MEGA = new ArrayList<>();
+    public static final List<PKMNDB.EnumPokemon> LEGENDARIES = new ArrayList<>();
+
     public static String asString(Collection<Move> moves)
     {
         StringBuilder s = new StringBuilder();
