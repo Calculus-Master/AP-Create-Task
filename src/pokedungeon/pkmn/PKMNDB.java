@@ -14,13 +14,18 @@ public class PKMNDB implements IEnergyValues
 
     public enum EnumPokemon
     {
-        INITIALIZE(0),
-        BULBASAUR((new Bulbasaur()).getGeneration()),
-        IVYSAUR((new Ivysaur()).getGeneration()),
-        VENUSAUR((new Venusaur()).getGeneration());
+        INITIALIZE(0, false, false),
+        BULBASAUR(1, false, false),
+        IVYSAUR(1, false, false),
+        VENUSAUR(1, false, false),
+        MEGA_VENUSAUR(1, true, false);
 
-        EnumPokemon(int gen)
+        EnumPokemon(int gen, boolean isMega, boolean isLegend)
         {
+            if(isMega) Global.MEGA.add(this);
+
+            if(isLegend) Global.LEGENDARIES.add(this);
+
             switch(gen)
             {
                 case 0: System.out.println("Pokemon Enum has been initialized"); break;
@@ -44,6 +49,7 @@ public class PKMNDB implements IEnergyValues
             case BULBASAUR: return new Bulbasaur();
             case IVYSAUR: return new Ivysaur();
             case VENUSAUR: return new Venusaur();
+            case MEGA_VENUSAUR: return new MegaVenusaur();
             default: throw new IllegalArgumentException("Invalid Input");
         }
     }
@@ -60,6 +66,8 @@ public class PKMNDB implements IEnergyValues
             this.moves.addMove(MoveDB.GROWL, 1);
             this.moves.addMove(MoveDB.TACKLE, 1);
             this.moves.addMove(MoveDB.VINE_WHIP, 3);
+            this.moves.addMove(MoveDB.GROWTH, 6);
+            this.moves.addMove(MoveDB.LEECH_SEED, 9);
             this.initMoves();
 
             this.typeEff.addTypeEff(Type.FIRE, 2);
@@ -84,6 +92,8 @@ public class PKMNDB implements IEnergyValues
             this.moves.addMove(MoveDB.GROWL, 1);
             this.moves.addMove(MoveDB.TACKLE, 1);
             this.moves.addMove(MoveDB.VINE_WHIP, 1);
+            this.moves.addMove(MoveDB.GROWTH, 1);
+            this.moves.addMove(MoveDB.LEECH_SEED, 9);
             this.initMoves();
 
             this.typeEff.copyEffMap(new Bulbasaur());
@@ -100,6 +110,26 @@ public class PKMNDB implements IEnergyValues
             this.moves.addMove(MoveDB.GROWL, 1);
             this.moves.addMove(MoveDB.TACKLE, 1);
             this.moves.addMove(MoveDB.VINE_WHIP, 1);
+            this.moves.addMove(MoveDB.GROWTH, 1);
+            this.moves.addMove(MoveDB.LEECH_SEED, 9);
+            this.initMoves();
+
+            this.typeEff.copyEffMap(new Bulbasaur());
+        }
+    }
+
+    public static class MegaVenusaur extends Pokemon
+    {
+        public MegaVenusaur()
+        {
+            super("Mega Venusaur", 3, 1);
+            this.setDefaultStats(Type.GRASS, Type.POISON, 80, 100, 123, 122, 120, 80, STAGE2_ENERGY);
+
+            this.moves.addMove(MoveDB.GROWL, 1);
+            this.moves.addMove(MoveDB.TACKLE, 1);
+            this.moves.addMove(MoveDB.VINE_WHIP, 1);
+            this.moves.addMove(MoveDB.GROWTH, 1);
+            this.moves.addMove(MoveDB.LEECH_SEED, 9);
             this.initMoves();
 
             this.typeEff.copyEffMap(new Bulbasaur());
