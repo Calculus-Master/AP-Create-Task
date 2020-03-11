@@ -2,7 +2,6 @@ package pokedungeon.utils.properties;
 
 import pokedungeon.pkmn.Pokemon;
 import pokedungeon.utils.Global;
-import pokedungeon.utils.enums.EnumProperty;
 import pokedungeon.utils.enums.Type;
 
 import java.util.HashMap;
@@ -29,7 +28,7 @@ public class PropertyEffectiveness extends PropertyBase
 
     public void copyEffMap(Pokemon copyFrom)
     {
-        this.typeEff = copyFrom.property(EnumProperty.TYPE_EFFECTIVENESS).typeEffCast().get();
+        this.typeEff = copyFrom.typeEff().get();
     }
 
     public HashMap<Type, Double> get()

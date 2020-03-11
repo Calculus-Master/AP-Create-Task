@@ -21,8 +21,8 @@ public class PropertyBattleStats extends PropertyBase
 
     public void decrHP(int amount)
     {
-        System.out.println("Amount = " + amount);
         this.health = Math.max(this.health - amount, 0);
+        if(this.health == 0) this.owner.faint();
     }
 
     public void incrHP(int amount)
@@ -105,7 +105,6 @@ public class PropertyBattleStats extends PropertyBase
 
     public void updateAllStats()
     {
-        this.updateStat(EnumStats.HP);
         this.updateStat(EnumStats.ATTACK);
         this.updateStat(EnumStats.DEFENSE);
         this.updateStat(EnumStats.SPECIAL_ATTACK);
@@ -129,6 +128,7 @@ public class PropertyBattleStats extends PropertyBase
         this.special_defense = SPDEF;
         this.speed = SPD;
 
+        this.updateStat(EnumStats.HP);
         this.updateAllStats();
     }
 }

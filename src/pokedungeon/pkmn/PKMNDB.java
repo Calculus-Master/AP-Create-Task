@@ -59,6 +59,7 @@ public class PKMNDB implements IEnergyValues
 
             this.moves.addMove(MoveDB.GROWL, 1);
             this.moves.addMove(MoveDB.TACKLE, 1);
+            this.moves.addMove(MoveDB.VINE_WHIP, 3);
             this.initMoves();
 
             this.typeEff.addTypeEff(Type.FIRE, 2);
@@ -82,6 +83,7 @@ public class PKMNDB implements IEnergyValues
 
             this.moves.addMove(MoveDB.GROWL, 1);
             this.moves.addMove(MoveDB.TACKLE, 1);
+            this.moves.addMove(MoveDB.VINE_WHIP, 1);
             this.initMoves();
 
             this.typeEff.copyEffMap(new Bulbasaur());
@@ -97,6 +99,7 @@ public class PKMNDB implements IEnergyValues
 
             this.moves.addMove(MoveDB.GROWL, 1);
             this.moves.addMove(MoveDB.TACKLE, 1);
+            this.moves.addMove(MoveDB.VINE_WHIP, 1);
             this.initMoves();
 
             this.typeEff.copyEffMap(new Bulbasaur());

@@ -1,9 +1,8 @@
 package pokedungeon.utils.properties;
 
 import pokedungeon.pkmn.Pokemon;
-import pokedungeon.utils.interfaces.IPropertyCastHelper;
 
-public abstract class PropertyBase implements IPropertyCastHelper
+public abstract class PropertyBase
 {
     private String propertyName;
     protected Pokemon owner;

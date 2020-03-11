@@ -1,17 +1,23 @@
 package pokedungeon.pkmn;
 
 import pokedungeon.attacks.Move;
-import pokedungeon.utils.enums.EnumProperty;
+import pokedungeon.utils.Global;
 import pokedungeon.utils.enums.EnumStats;
 import pokedungeon.utils.enums.Type;
 import pokedungeon.utils.properties.*;
 
-import java.util.List;
+import java.util.*;
 
 public abstract class Pokemon
 {
-    private PropertyID ID;
-    private PropertyType type;
+    //Identification Properties
+    private String name;
+    private int pokedexNum;
+    private int gen;
+    private Set<Type> type;
+    private boolean isFainted = false;
+
+    //Complex Properties
     private PropertyEXP exp;
     private PropertyBattleStats battleStats;
     private PropertyEnergy energy;
@@ -20,15 +26,15 @@ public abstract class Pokemon
 
     public Pokemon(String name, int pokedex, int gen)
     {
-        ID = new PropertyID(this);
-        type = new PropertyType(this);
         exp = new PropertyEXP(this);
         battleStats = new PropertyBattleStats(this);
         energy = new PropertyEnergy(this);
         moves = new PropertyMoves(this);
         typeEff = new PropertyEffectiveness(this);
 
-        this.ID.set(name, pokedex, gen);
+        this.name = name;
+        this.pokedexNum = pokedex;
+        this.gen = gen;
     }
 
     /**
@@ -41,17 +47,17 @@ public abstract class Pokemon
      * 4. Use the attack
      * 5. Drain energy
      * 6. Output results
-     *
-     * @param opponent
-     * @param index
      */
-    public void useAttack(Pokemon opponent, int index)
+    public void useAttack(Pokemon opponent)
     {
-        //User must be alive & the move must exist in their moveset
-        assert this.battleStats.getStat(EnumStats.HP) > 0;
-        assert this.moves.getMoveSet().size() > index;
+        assert !this.isFainted() && !opponent.isFainted() : "One of the Battling Pokemon is Fainted";
 
-        Move chosenMove = this.moves.getMoveSet().get(index);
+        System.out.println(this.getName() + " can use any of these moves: " + Global.asString(this.getMoveSet()));
+        int index = (new Scanner(System.in)).nextInt() - 1;
+        Move chosenMove = this.moves.getCurrentMoveSet().get(index);
+
+        //User must be alive & the move must exist in their moveset
+        assert this.moves.getCurrentMoveSet().size() > index : this.getName() + " does not know " + chosenMove.getName();
 
         //User must have enough energy to use the move
         if(this.energy.get() < chosenMove.getEnergyDrain())
@@ -63,7 +69,8 @@ public abstract class Pokemon
         this.moves.updateAvailableMoves(this.getLevel());
         chosenMove.use(this, opponent);
         this.energy.decr(chosenMove.getEnergyDrain());
-        System.out.println(this.getName() + " used " + chosenMove.getName() + " on " + opponent.getName() + "!");
+
+        System.out.println(this.getName() + Global.wrapHP(this) + "used " + chosenMove.getName() + " on " + opponent.getName() + Global.wrapHP(opponent) + "!");
     }
 
     /**
@@ -76,24 +83,35 @@ public abstract class Pokemon
 
     public void setDefaultStats(Type typeA, Type typeB, int baseHP, int baseATK, int baseDEF, int baseSPATK, int baseSPDEF, int baseSPD, double maxEnergy)
     {
-        this.type.set(typeA, typeB);
+        this.type = new HashSet<>(Arrays.asList(typeA, typeB));
         this.battleStats.setInitialStats(baseHP, baseATK, baseDEF, baseSPATK, baseSPDEF, baseSPD);
         this.energy.setMax(maxEnergy);
     }
 
-    public <PROPERTY extends PropertyBase> PROPERTY property(EnumProperty p)
+    //Properties
+    public PropertyEXP experience()
     {
-        switch(p)
-        {
-            case ID: return (PROPERTY)this.ID;
-            case TYPE: return (PROPERTY)this.type;
-            case EXP: return (PROPERTY)this.exp;
-            case BATTLE_STATS: return (PROPERTY)this.battleStats;
-            case ENERGY: return (PROPERTY)this.energy;
-            case MOVES: return (PROPERTY)this.moves;
-            case TYPE_EFFECTIVENESS: return (PROPERTY)this.typeEff;
-            default: return null;
-        }
+        return this.exp;
+    }
+
+    public PropertyBattleStats stats()
+    {
+        return this.battleStats;
+    }
+
+    public PropertyEnergy energy()
+    {
+        return this.energy;
+    }
+
+    public PropertyMoves moves()
+    {
+        return this.moves;
+    }
+
+    public PropertyEffectiveness typeEff()
+    {
+        return this.typeEff;
     }
 
     //Misc Utility Methods
@@ -115,17 +133,32 @@ public abstract class Pokemon
     //Read-Only Getter Methods
     public String getName()
     {
-        return this.ID.getName();
+        return this.name;
     }
 
     public int getPokedexNumber()
     {
-        return this.ID.getPokedex();
+        return this.pokedexNum;
     }
 
     public int getGeneration()
     {
-        return this.ID.getGen();
+        return this.gen;
+    }
+
+    public Set<Type> getType()
+    {
+        return this.type;
+    }
+
+    public boolean isFainted()
+    {
+        return this.isFainted;
+    }
+
+    public void faint()
+    {
+        this.isFainted = true;
     }
 
     public int getLevel()
@@ -135,6 +168,6 @@ public abstract class Pokemon
 
     public List<Move> getMoveSet()
     {
-        return this.moves.getMoveSet();
+        return this.moves.getCurrentMoveSet();
     }
 }

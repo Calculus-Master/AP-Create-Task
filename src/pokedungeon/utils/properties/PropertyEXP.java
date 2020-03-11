@@ -1,6 +1,7 @@
 package pokedungeon.utils.properties;
 
 import pokedungeon.pkmn.Pokemon;
+import pokedungeon.utils.enums.EnumStats;
 
 public class PropertyEXP extends PropertyBase
 {
@@ -30,6 +31,9 @@ public class PropertyEXP extends PropertyBase
             this.currentLevel++;
 
             this.outVals();
+
+            this.owner.stats().updateStat(EnumStats.HP);
+            this.owner.stats().updateAllStats();
 
             if(this.canLevel()) this.levelUp();
         }
