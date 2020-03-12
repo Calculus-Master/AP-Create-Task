@@ -87,8 +87,8 @@ public class MoveDB
         {
             for(int i = 0; i < stage; i++) 
             {
-              user.stats().boostIV(EnumStats.ATTACK);
-              user.stats().boostIV(EnumStats.SPECIAL_ATTACK);
+                user.stats().boostIV(EnumStats.ATTACK);
+                user.stats().boostIV(EnumStats.SPECIAL_ATTACK);
             }
         }
     }

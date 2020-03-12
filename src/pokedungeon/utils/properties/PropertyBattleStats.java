@@ -37,7 +37,7 @@ public class PropertyBattleStats extends PropertyBase
 
     public int getMaxHealth()
     {
-      return  (((2 * this.baseStats.get(EnumStats.HP) + this.getIV(EnumStats.HP)) * this.owner.getLevel()) / 100) + this.owner.getLevel() + 10;
+      return (((2 * this.baseStats.get(EnumStats.HP) + this.getIV(EnumStats.HP)) * this.owner.getLevel()) / 100) + this.owner.getLevel() + 10;
     }
 
     public void updateStat(EnumStats s)

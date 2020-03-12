@@ -34,10 +34,10 @@ public class PropertyEXP extends PropertyBase
             this.owner.stats().updateStat(EnumStats.HP);
             this.owner.stats().updateAllStats();
 
-						for(Move m : this.owner.moves().getAllMoves().keySet())
-						{
-							if(this.owner.moves().getAllMoves().get(m) == this.currentLevel) this.owner.moves().learnMove(m);
-						}
+            for(Move m : this.owner.moves().getAllMoves().keySet())
+            {
+                if(this.owner.moves().getAllMoves().get(m) == this.currentLevel) this.owner.moves().learnMove(m);
+            }
 
             if(this.canLevel()) this.levelUp();
         }

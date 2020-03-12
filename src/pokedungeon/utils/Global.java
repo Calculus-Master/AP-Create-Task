@@ -6,10 +6,7 @@ import pokedungeon.pkmn.Pokemon;
 import pokedungeon.utils.enums.EnumStats;
 import pokedungeon.utils.enums.Type;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.List;
+import java.util.*;
 
 public class Global
 {
@@ -54,5 +51,10 @@ public class Global
         ALL.addAll(GEN_7);
         ALL.addAll(GEN_8);
         return ALL;
+    }
+
+    public static Pokemon getRandomPokemon(List<PKMNDB.EnumPokemon> pokeList)
+    {
+        return PKMNDB.create(pokeList.get((new Random()).nextInt(pokeList.size())));
     }
 }
