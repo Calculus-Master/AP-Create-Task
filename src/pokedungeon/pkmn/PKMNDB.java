@@ -18,7 +18,16 @@ public class PKMNDB implements IEnergyValues
         BULBASAUR(1, false, false),
         IVYSAUR(1, false, false),
         VENUSAUR(1, false, false),
-        MEGA_VENUSAUR(1, true, false);
+        MEGA_VENUSAUR(1, true, false),
+		CHARMANDER(1, false, false),
+        CHARMELEON(1, false, false),
+        CHARIZARD(1, false, false),
+        MEGA_CHARIZARD_X(1, true, false),
+        MEGA_CHARIZARD_Y(1, true, false),
+        SQUIRTLE(1, false, false),
+        WARTORTLE(1, false, false),
+        BLASTOISE(1, false, false),
+        MEGA_BLASTOISE(1, true, false);
 
         EnumPokemon(int gen, boolean isMega, boolean isLegend)
         {
@@ -50,11 +59,28 @@ public class PKMNDB implements IEnergyValues
             case IVYSAUR: return new Ivysaur();
             case VENUSAUR: return new Venusaur();
             case MEGA_VENUSAUR: return new MegaVenusaur();
+            case CHARMANDER: return new Charmander();
+            case CHARMELEON: return new Charmeleon();
+            case CHARIZARD: return new Charizard();
+            case MEGA_CHARIZARD_X: return new MegaCharizardX();
+            case MEGA_CHARIZARD_Y: return new MegaCharizardY();
+            case SQUIRTLE: return new Squirtle();
+            case WARTORTLE: return new Wartortle();
+            case BLASTOISE: return new Blastoise();
+            case MEGA_BLASTOISE: return new MegaBlastoise();
             default: throw new IllegalArgumentException("Invalid Input");
         }
     }
 
     //Individual Pokemon Declarations
+
+		/** Pokemon Methods
+         * this.moves.addMove() - Add moves
+         * this.initMoves() - Call after addMoves()
+         * this.typeEff.addTypeEff() - Type Effectiveness
+         * this.typeEff.copyEffMap(Pokemon p) - If the Pokemon is an evolution and can copy the eff map of the basic evo
+         * this.addForm() - Add a Mega or alternate form
+		*/
 
     public static class Bulbasaur extends Pokemon
     {
@@ -114,6 +140,8 @@ public class PKMNDB implements IEnergyValues
             this.moves.addMove(MoveDB.LEECH_SEED, 9);
             this.initMoves();
 
+            this.addMega(EnumPokemon.MEGA_VENUSAUR);
+
             this.typeEff.copyEffMap(new Bulbasaur());
         }
     }
@@ -123,7 +151,7 @@ public class PKMNDB implements IEnergyValues
         public MegaVenusaur()
         {
             super("Mega Venusaur", 3, 1);
-            this.setDefaultStats(Type.GRASS, Type.POISON, 80, 100, 123, 122, 120, 80, STAGE2_ENERGY);
+            this.setDefaultStats(Type.GRASS, Type.POISON, 80, 100, 123, 122, 120, 80, MEGA_S2_ENERGY);
 
             this.moves.addMove(MoveDB.GROWL, 1);
             this.moves.addMove(MoveDB.TACKLE, 1);
@@ -133,6 +161,156 @@ public class PKMNDB implements IEnergyValues
             this.initMoves();
 
             this.typeEff.copyEffMap(new Bulbasaur());
+        }
+    }
+
+    public static class Charmander extends Pokemon
+    {
+        public Charmander()
+        {
+            super("Charmander", 4, 1);
+            this.setDefaultStats(Type.FIRE, Type.FIRE, 39, 52, 43, 60, 50, 65, BASIC_ENERGY);
+
+            this.initMoves();
+
+            this.typeEff.addTypeEff(Type.FIRE, 0.5);
+            this.typeEff.addTypeEff(Type.WATER, 2);
+            this.typeEff.addTypeEff(Type.GRASS, 0.5);
+            this.typeEff.addTypeEff(Type.ICE, 0.5);
+            this.typeEff.addTypeEff(Type.GROUND, 2);
+            this.typeEff.addTypeEff(Type.BUG, 0.5);
+            this.typeEff.addTypeEff(Type.ROCK, 2);
+            this.typeEff.addTypeEff(Type.STEEL, 0.5);
+            this.typeEff.addTypeEff(Type.FAIRY, 0.5);
+        }
+    }
+
+    public static class Charmeleon extends Pokemon
+    {
+        public Charmeleon()
+        {
+            super("Charmeleon", 5, 1);
+            this.setDefaultStats(Type.FIRE, Type.FIRE, 58, 64, 58, 80, 65, 80, STAGE1_ENERGY);
+
+            this.initMoves();
+
+            this.typeEff.copyEffMap(new Charmander());
+        }
+    }
+
+    public static class Charizard extends Pokemon
+    {
+        public Charizard()
+        {
+            super("Charizard", 6, 1);
+            this.setDefaultStats(Type.FIRE, Type.FLYING, 78, 84, 78, 109, 85, 100, STAGE2_ENERGY);
+
+            this.initMoves();
+
+            this.addMega(EnumPokemon.MEGA_CHARIZARD_X, EnumPokemon.MEGA_CHARIZARD_Y);
+
+            this.typeEff.addTypeEff(Type.FIRE, 0.5);
+            this.typeEff.addTypeEff(Type.WATER, 2);
+            this.typeEff.addTypeEff(Type.ELECTRIC, 2);
+            this.typeEff.addTypeEff(Type.GRASS, 0.25);
+            this.typeEff.addTypeEff(Type.FIGHTING, 0.5);
+            this.typeEff.addTypeEff(Type.GROUND, 0.0);
+            this.typeEff.addTypeEff(Type.BUG, 0.25);
+            this.typeEff.addTypeEff(Type.ROCK, 4);
+            this.typeEff.addTypeEff(Type.STEEL, 0.5);
+            this.typeEff.addTypeEff(Type.FAIRY, 0.5);
+        }
+    }
+
+    public static class MegaCharizardX extends Pokemon
+    {
+        public MegaCharizardX()
+        {
+            super("Mega Charizard X", 6, 1);
+            this.setDefaultStats(Type.FIRE, Type.DRAGON, 78, 130, 111, 130, 85, 100, MEGA_S2_ENERGY);
+
+            this.initMoves();
+
+            this.typeEff.addTypeEff(Type.FIRE, 0.25);
+            this.typeEff.addTypeEff(Type.ELECTRIC, 0.5);
+            this.typeEff.addTypeEff(Type.GRASS, 0.25);
+            this.typeEff.addTypeEff(Type.GROUND, 2);
+            this.typeEff.addTypeEff(Type.BUG, 0.5);
+            this.typeEff.addTypeEff(Type.ROCK, 2);
+            this.typeEff.addTypeEff(Type.DRAGON, 2);
+            this.typeEff.addTypeEff(Type.STEEL, 0.5);
+        }
+    }
+
+    public static class MegaCharizardY extends Pokemon
+    {
+        public MegaCharizardY()
+        {
+            super("Mega Charizard Y", 6, 1);
+            this.setDefaultStats(Type.FIRE, Type.FLYING, 78, 104, 78, 159, 115, 100, MEGA_S2_ENERGY);
+
+            this.initMoves();
+
+            this.typeEff.copyEffMap(new Charizard());
+        }
+    }
+
+    public static class Squirtle extends Pokemon
+    {
+        public Squirtle()
+        {
+            super("Squirtle", 7, 1);
+            this.setDefaultStats(Type.WATER, Type.WATER, 44, 48, 65, 50, 64, 43, BASIC_ENERGY);
+
+            this.initMoves();
+
+            this.typeEff.addTypeEff(Type.FIRE, 0.5);
+            this.typeEff.addTypeEff(Type.WATER, 0.5);
+            this.typeEff.addTypeEff(Type.ELECTRIC, 2);
+            this.typeEff.addTypeEff(Type.GRASS, 2);
+            this.typeEff.addTypeEff(Type.ICE, 0.5);
+            this.typeEff.addTypeEff(Type.STEEL, 0.5);
+        }
+    }
+
+    public static class Wartortle extends Pokemon
+    {
+        public Wartortle()
+        {
+            super("Wartortle", 8, 1);
+            this.setDefaultStats(Type.WATER, Type.WATER, 59, 63, 80, 65, 80, 58, STAGE1_ENERGY);
+
+            this.initMoves();
+
+            this.typeEff.copyEffMap(new Squirtle());
+        }
+    }
+
+    public static class Blastoise extends Pokemon
+    {
+        public Blastoise()
+        {
+            super("Blastoise", 9, 1);
+            this.setDefaultStats(Type.WATER, Type.WATER, 79, 83, 100, 85, 105, 78, STAGE2_ENERGY);
+
+            this.initMoves();
+
+            this.addMega(EnumPokemon.MEGA_BLASTOISE);
+
+            this.typeEff.copyEffMap(new Squirtle());
+        }
+    }
+
+    public static class MegaBlastoise extends Pokemon
+    {
+        public MegaBlastoise()
+        {
+            super("Mega Blastoise", 9, 1);
+            this.setDefaultStats(Type.WATER, Type.WATER, 79, 103, 120, 135, 115, 78, MEGA_S2_ENERGY);
+
+            this.initMoves();
+
+            this.typeEff.copyEffMap(new Squirtle());
         }
     }
 }

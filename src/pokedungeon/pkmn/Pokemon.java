@@ -2,6 +2,7 @@ package pokedungeon.pkmn;
 
 import pokedungeon.attacks.Move;
 import pokedungeon.utils.Global;
+import pokedungeon.pkmn.*;
 import pokedungeon.utils.enums.EnumStats;
 import pokedungeon.utils.enums.Type;
 import pokedungeon.utils.properties.*;
@@ -24,6 +25,11 @@ public abstract class Pokemon
     protected PropertyMoves moves;
     protected PropertyEffectiveness typeEff;
     private PropertyStatusConditions statusConditions;
+
+    //Mega and Form Transformation
+    private PKMNDB.EnumPokemon megaX = null;
+    private PKMNDB.EnumPokemon megaY = null;
+    private List<PKMNDB.EnumPokemon> altForms = new ArrayList<>();
 
     public Pokemon(String name, int pokedex, int gen)
     {
@@ -53,7 +59,7 @@ public abstract class Pokemon
     public void useAttack(Pokemon opponent)
     {
         assert !this.isFainted() && !opponent.isFainted() : "One of the Battling Pokemon is Fainted";
-        assert !this.statusConditions.isAsleep && !this.statusConditions.isConfused;
+        assert !this.statusConditions.isAsleep && !this.statusConditions.isParalyzed;
 
         System.out.println(this.getName() + " can use any of these moves: " + Global.asString(this.getMoveSet()));
         int index = (new Scanner(System.in)).nextInt() - 1;
@@ -75,7 +81,7 @@ public abstract class Pokemon
         if(acc) chosenMove.use(this, opponent);
         this.energy.decr(chosenMove.getEnergyDrain());
 
-        if(acc) System.out.println(this.getName() + " missed using " + chosenMove.getName() + "!");
+        if(!acc) System.out.println(this.getName() + " missed using " + chosenMove.getName() + "!");
         else System.out.println(this.getName() + Global.wrapHP(this) + "used " + chosenMove.getName() + " on " + opponent.getName() + Global.wrapHP(opponent) + "!");
     }
 
@@ -92,6 +98,65 @@ public abstract class Pokemon
         this.type = new HashSet<>(Arrays.asList(typeA, typeB));
         this.battleStats.setInitialStats(baseHP, baseATK, baseDEF, baseSPATK, baseSPDEF, baseSPD);
         this.energy.setMax(maxEnergy);
+    }
+
+    //Below Methods involve transforming a pokemon into a Mega or Form
+
+    public void addMega(PKMNDB.EnumPokemon megaX, PKMNDB.EnumPokemon megaY)
+    {
+        this.megaX = megaX;
+        this.megaY = megaY;
+    }
+
+    public void addMega(PKMNDB.EnumPokemon mega)
+    {
+        this.megaX = mega;
+        this.megaY = mega;
+    }
+
+    public void addForm(PKMNDB.EnumPokemon form)
+    {
+        this.altForms.add(form);
+    }
+
+    private Map<String, Object> persistentData()
+    {
+        Map<String, Object> pData = new HashMap<>();
+
+        pData.put("Level", this.getLevel());
+        pData.put("EXP", this.experience().getEXP());
+
+        return pData;
+    }
+
+    public void applyData(Map<String, Object> pData)
+    {
+        for(int i = 1; i <= (int)pData.get("Level"); i++) this.experience().addEXP(this.experience().getRequiredEXPLevel(i));
+
+        this.experience().addEXP((int)pData.get("EXP"));
+    }
+
+    /**
+     * Not Yet Called
+     * Transforms a pokemon, if eligible, into its mega evolved form
+     */
+    public Pokemon transformEvent()
+    {
+        Pokemon form;
+        if(this.canTransform())
+        {
+            if(this.megaX != null && this.megaY != null) form = PKMNDB.create((new Random().nextInt(1)) == 1 ? this.megaX : this.megaY);
+            else form = PKMNDB.create(this.altForms.get(new Random().nextInt(this.altForms.size())));
+
+            form.applyData(this.persistentData());
+            return form;
+        }
+        return null;
+    }
+
+    private boolean canTransform()
+    {
+        return (new Random().nextInt(5000) <= 5) && ((this.megaX != null && this.megaY != null) || !this.altForms.isEmpty());
     }
 
     //Properties

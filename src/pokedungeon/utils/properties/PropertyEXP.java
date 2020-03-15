@@ -48,7 +48,7 @@ public class PropertyEXP extends PropertyBase
         return this.currentEXP >= this.getRequiredEXPLevel(this.currentLevel + 1);
     }
 
-    private int getRequiredEXPLevel(int level)
+    public int getRequiredEXPLevel(int level)
     {
         return (level * 2) + 1;
     }

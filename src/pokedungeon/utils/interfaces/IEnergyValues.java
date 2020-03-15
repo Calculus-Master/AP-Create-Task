@@ -8,10 +8,9 @@ public interface IEnergyValues
     double LEGENDARY_ENERGY = 250;
     double MYTHICAL_ENERGY = 300;
 
-    default double getMega(double energy)
-    {
-        return energy * 1.5;
-    }
+    double MEGA_S1_ENERGY = STAGE1_ENERGY * 1.75;
+    double MEGA_S2_ENERGY = STAGE2_ENERGY * 1.75;
+    double MEGA_LEGEND_ENERGY = LEGENDARY_ENERGY * 1.75;
 
     default double getPassiveGen(double energy)
     {
