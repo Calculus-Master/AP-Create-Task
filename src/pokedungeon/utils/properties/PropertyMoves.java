@@ -65,6 +65,14 @@ public class PropertyMoves extends PropertyBase
         this.allMoves.put(m, level);
     }
 
+    public void copyMoves(Pokemon p)
+    {
+        for(Move m : p.moves().getAllMoves().keySet())
+        {
+            this.owner.moves().addMove(m, p.moves().getAllMoves().get(m));
+        }
+    }
+
     public HashMap<Move, Integer> getAllMoves()
     {
         return this.allMoves;

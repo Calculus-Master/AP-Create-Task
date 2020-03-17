@@ -2,7 +2,6 @@ package pokedungeon.pkmn;
 
 import pokedungeon.attacks.Move;
 import pokedungeon.utils.Global;
-import pokedungeon.pkmn.*;
 import pokedungeon.utils.enums.EnumStats;
 import pokedungeon.utils.enums.Type;
 import pokedungeon.utils.properties.*;
@@ -15,7 +14,7 @@ public abstract class Pokemon
     private String name;
     private int pokedexNum;
     private int gen;
-    private Set<Type> type;
+    private List<Type> type;
     private boolean isFainted = false;
 
     //Complex Properties
@@ -95,7 +94,7 @@ public abstract class Pokemon
 
     public void setDefaultStats(Type typeA, Type typeB, int baseHP, int baseATK, int baseDEF, int baseSPATK, int baseSPDEF, int baseSPD, double maxEnergy)
     {
-        this.type = new HashSet<>(Arrays.asList(typeA, typeB));
+        this.type = Arrays.asList(typeA, typeB);
         this.battleStats.setInitialStats(baseHP, baseATK, baseDEF, baseSPATK, baseSPDEF, baseSPD);
         this.energy.setMax(maxEnergy);
     }
@@ -222,7 +221,7 @@ public abstract class Pokemon
         return this.gen;
     }
 
-    public Set<Type> getType()
+    public List<Type> getType()
     {
         return this.type;
     }

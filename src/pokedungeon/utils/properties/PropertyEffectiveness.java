@@ -1,10 +1,12 @@
 package pokedungeon.utils.properties;
 
 import pokedungeon.pkmn.Pokemon;
+import pokedungeon.pkmn.TypeMapDB;
 import pokedungeon.utils.Global;
 import pokedungeon.utils.enums.Type;
 
 import java.util.HashMap;
+import java.util.Map;
 
 public class PropertyEffectiveness extends PropertyBase
 {
@@ -19,6 +21,12 @@ public class PropertyEffectiveness extends PropertyBase
     private void createBaseMap()
     {
         for(Type t : Global.typeList) this.typeEff.put(t, 1.0);
+    }
+
+    public void create()
+    {
+        Map<Type, Double> dataMap = TypeMapDB.getMap(this.owner.getType().get(0), this.owner.getType().get(1));
+        for(Type t : dataMap.keySet()) this.addTypeEff(t, dataMap.get(t));
     }
 
     public void addTypeEff(Type type, double effectiveness)

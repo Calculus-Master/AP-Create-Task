@@ -36,40 +36,20 @@ public abstract class Move
         return this.name;
     }
 
-    public Type getType()
-    {
-        return this.type;
-    }
-
-    public MoveCategory getMoveCategory()
-    {
-        return this.cat;
-    }
-
-    public int getBaseDMG()
-    {
-        return this.baseDMG;
-    }
-
-    public int getAccuracy()
-    {
-        return this.accuracy;
-    }
-
     public boolean isAccurate()
     {
-        return (new Random()).nextInt(101) <= this.getAccuracy();
+        return (new Random()).nextInt(101) <= this.accuracy;
     }
 
     public void dealDamage(Pokemon user, Pokemon opponent)
     {
-        EnumStats attackType = this.getMoveCategory().equals(MoveCategory.PHYSICAL) ? EnumStats.ATTACK : EnumStats.SPECIAL_ATTACK;
-        EnumStats defenseType = this.getMoveCategory().equals(MoveCategory.PHYSICAL) ? EnumStats.DEFENSE : EnumStats.SPECIAL_DEFENSE;
+        EnumStats attackType = this.cat.equals(MoveCategory.PHYSICAL) ? EnumStats.ATTACK : EnumStats.SPECIAL_ATTACK;
+        EnumStats defenseType = this.cat.equals(MoveCategory.PHYSICAL) ? EnumStats.DEFENSE : EnumStats.SPECIAL_DEFENSE;
         double atkStat = user.stats().getStat(attackType);
         double defStat = opponent.stats().getStat(defenseType);
 
         double modifier = opponent.typeEff().get().get(this.type);
-        double fullDamage = ((((2 * user.getLevel() / 5.0) + 2.0) * this.getBaseDMG() * (atkStat / defStat) / 50) + 2);
+        double fullDamage = ((((2 * user.getLevel() / 5.0) + 2.0) * this.baseDMG * (atkStat / defStat) / 50) + 2);
         opponent.stats().decrHP((int)(fullDamage * modifier));
     }
 

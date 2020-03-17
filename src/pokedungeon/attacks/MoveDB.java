@@ -3,10 +3,14 @@ package pokedungeon.attacks;
 import pokedungeon.pkmn.Pokemon;
 import pokedungeon.utils.enums.EnumStats;
 import pokedungeon.utils.enums.MoveCategory;
+import pokedungeon.utils.enums.StatusCondition;
 import pokedungeon.utils.enums.Type;
+
+import java.util.Random;
 
 public class MoveDB
 {
+    //How many IVs to decrease/increase stats by
     private static final int stage = 2;
     
     //Variables to Access the Moves
@@ -15,6 +19,8 @@ public class MoveDB
     public static final Move VINE_WHIP = new VineWhip();
     public static final Move GROWTH = new Growth();
     public static final Move LEECH_SEED = new LeechSeed();
+    public static final Move SCRATCH = new Scratch();
+    public static final Move EMBER = new Ember();
 
     //Move Classes
     private static class Growl extends Move
@@ -112,6 +118,43 @@ public class MoveDB
                 opponent.stats().decrHP(1 / 8);
                 user.stats().incrHP((1 / 8) * opponent.stats().getMaxHealth());
             }
+        }
+    }
+
+    private static class Scratch extends Move
+    {
+        public Scratch()
+        {
+            super("Scratch", Type.NORMAL, MoveCategory.PHYSICAL, 40, 100);
+        }
+
+        /**
+         * Scratch is one of the most common and basic moves a Pokémon learns. It deals damage with no additional effects.
+         */
+
+        @Override
+        public void use(Pokemon user, Pokemon opponent)
+        {
+            this.dealDamage(user, opponent);
+        }
+    }
+
+    private static class Ember extends Move
+    {
+        public Ember()
+        {
+            super("Ember", Type.FIRE, MoveCategory.SPECIAL, 40, 100);
+        }
+
+        /**
+         * Ember deals damage and has a 10% chance of burning the target.
+         */
+
+        @Override
+        public void use(Pokemon user, Pokemon opponent)
+        {
+            this.dealDamage(user, opponent);
+            if(new Random().nextInt(10) == 0) opponent.statusConditions().inflict(StatusCondition.BURNED);
         }
     }
 }

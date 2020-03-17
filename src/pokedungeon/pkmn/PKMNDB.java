@@ -94,17 +94,9 @@ public class PKMNDB implements IEnergyValues
             this.moves.addMove(MoveDB.VINE_WHIP, 3);
             this.moves.addMove(MoveDB.GROWTH, 6);
             this.moves.addMove(MoveDB.LEECH_SEED, 9);
-            this.initMoves();
 
-            this.typeEff.addTypeEff(Type.FIRE, 2);
-            this.typeEff.addTypeEff(Type.WATER, 0.5);
-            this.typeEff.addTypeEff(Type.ELECTRIC, 0.5);
-            this.typeEff.addTypeEff(Type.GRASS, 0.25);
-            this.typeEff.addTypeEff(Type.ICE, 2);
-            this.typeEff.addTypeEff(Type.FIGHTING, 0.5);
-            this.typeEff.addTypeEff(Type.FLYING, 2);
-            this.typeEff.addTypeEff(Type.PSYCHIC, 2);
-            this.typeEff.addTypeEff(Type.FAIRY, 0.5);
+            this.initMoves();
+            this.typeEff.create();
         }
     }
 
@@ -120,9 +112,9 @@ public class PKMNDB implements IEnergyValues
             this.moves.addMove(MoveDB.VINE_WHIP, 1);
             this.moves.addMove(MoveDB.GROWTH, 1);
             this.moves.addMove(MoveDB.LEECH_SEED, 9);
-            this.initMoves();
 
-            this.typeEff.copyEffMap(new Bulbasaur());
+            this.initMoves();
+            this.typeEff.create();
         }
     }
 
@@ -138,11 +130,10 @@ public class PKMNDB implements IEnergyValues
             this.moves.addMove(MoveDB.VINE_WHIP, 1);
             this.moves.addMove(MoveDB.GROWTH, 1);
             this.moves.addMove(MoveDB.LEECH_SEED, 9);
+
             this.initMoves();
-
             this.addMega(EnumPokemon.MEGA_VENUSAUR);
-
-            this.typeEff.copyEffMap(new Bulbasaur());
+            this.typeEff.create();
         }
     }
 
@@ -153,14 +144,10 @@ public class PKMNDB implements IEnergyValues
             super("Mega Venusaur", 3, 1);
             this.setDefaultStats(Type.GRASS, Type.POISON, 80, 100, 123, 122, 120, 80, MEGA_S2_ENERGY);
 
-            this.moves.addMove(MoveDB.GROWL, 1);
-            this.moves.addMove(MoveDB.TACKLE, 1);
-            this.moves.addMove(MoveDB.VINE_WHIP, 1);
-            this.moves.addMove(MoveDB.GROWTH, 1);
-            this.moves.addMove(MoveDB.LEECH_SEED, 9);
-            this.initMoves();
+            this.moves.copyMoves(new Venusaur());
 
-            this.typeEff.copyEffMap(new Bulbasaur());
+            this.initMoves();
+            this.typeEff.create();
         }
     }
 
@@ -171,17 +158,12 @@ public class PKMNDB implements IEnergyValues
             super("Charmander", 4, 1);
             this.setDefaultStats(Type.FIRE, Type.FIRE, 39, 52, 43, 60, 50, 65, BASIC_ENERGY);
 
-            this.initMoves();
+            this.moves.addMove(MoveDB.GROWL, 1);
+            this.moves.addMove(MoveDB.SCRATCH, 1);
+            this.moves.addMove(MoveDB.EMBER, 4);
 
-            this.typeEff.addTypeEff(Type.FIRE, 0.5);
-            this.typeEff.addTypeEff(Type.WATER, 2);
-            this.typeEff.addTypeEff(Type.GRASS, 0.5);
-            this.typeEff.addTypeEff(Type.ICE, 0.5);
-            this.typeEff.addTypeEff(Type.GROUND, 2);
-            this.typeEff.addTypeEff(Type.BUG, 0.5);
-            this.typeEff.addTypeEff(Type.ROCK, 2);
-            this.typeEff.addTypeEff(Type.STEEL, 0.5);
-            this.typeEff.addTypeEff(Type.FAIRY, 0.5);
+            this.initMoves();
+            this.typeEff.create();
         }
     }
 
@@ -192,9 +174,12 @@ public class PKMNDB implements IEnergyValues
             super("Charmeleon", 5, 1);
             this.setDefaultStats(Type.FIRE, Type.FIRE, 58, 64, 58, 80, 65, 80, STAGE1_ENERGY);
 
-            this.initMoves();
+            this.moves.addMove(MoveDB.GROWL, 1);
+            this.moves.addMove(MoveDB.SCRATCH, 1);
+            this.moves.addMove(MoveDB.EMBER, 1);
 
-            this.typeEff.copyEffMap(new Charmander());
+            this.initMoves();
+            this.typeEff.create();
         }
     }
 
@@ -205,20 +190,13 @@ public class PKMNDB implements IEnergyValues
             super("Charizard", 6, 1);
             this.setDefaultStats(Type.FIRE, Type.FLYING, 78, 84, 78, 109, 85, 100, STAGE2_ENERGY);
 
+            this.moves.addMove(MoveDB.GROWL, 1);
+            this.moves.addMove(MoveDB.SCRATCH, 1);
+            this.moves.addMove(MoveDB.EMBER, 1);
+
             this.initMoves();
-
             this.addMega(EnumPokemon.MEGA_CHARIZARD_X, EnumPokemon.MEGA_CHARIZARD_Y);
-
-            this.typeEff.addTypeEff(Type.FIRE, 0.5);
-            this.typeEff.addTypeEff(Type.WATER, 2);
-            this.typeEff.addTypeEff(Type.ELECTRIC, 2);
-            this.typeEff.addTypeEff(Type.GRASS, 0.25);
-            this.typeEff.addTypeEff(Type.FIGHTING, 0.5);
-            this.typeEff.addTypeEff(Type.GROUND, 0.0);
-            this.typeEff.addTypeEff(Type.BUG, 0.25);
-            this.typeEff.addTypeEff(Type.ROCK, 4);
-            this.typeEff.addTypeEff(Type.STEEL, 0.5);
-            this.typeEff.addTypeEff(Type.FAIRY, 0.5);
+            this.typeEff.create();
         }
     }
 
@@ -229,16 +207,10 @@ public class PKMNDB implements IEnergyValues
             super("Mega Charizard X", 6, 1);
             this.setDefaultStats(Type.FIRE, Type.DRAGON, 78, 130, 111, 130, 85, 100, MEGA_S2_ENERGY);
 
-            this.initMoves();
+            this.moves.copyMoves(new Charizard());
 
-            this.typeEff.addTypeEff(Type.FIRE, 0.25);
-            this.typeEff.addTypeEff(Type.ELECTRIC, 0.5);
-            this.typeEff.addTypeEff(Type.GRASS, 0.25);
-            this.typeEff.addTypeEff(Type.GROUND, 2);
-            this.typeEff.addTypeEff(Type.BUG, 0.5);
-            this.typeEff.addTypeEff(Type.ROCK, 2);
-            this.typeEff.addTypeEff(Type.DRAGON, 2);
-            this.typeEff.addTypeEff(Type.STEEL, 0.5);
+            this.initMoves();
+            this.typeEff.create();
         }
     }
 
@@ -249,9 +221,10 @@ public class PKMNDB implements IEnergyValues
             super("Mega Charizard Y", 6, 1);
             this.setDefaultStats(Type.FIRE, Type.FLYING, 78, 104, 78, 159, 115, 100, MEGA_S2_ENERGY);
 
-            this.initMoves();
+            this.moves.copyMoves(new Charizard());
 
-            this.typeEff.copyEffMap(new Charizard());
+            this.initMoves();
+            this.typeEff.create();
         }
     }
 
@@ -263,13 +236,7 @@ public class PKMNDB implements IEnergyValues
             this.setDefaultStats(Type.WATER, Type.WATER, 44, 48, 65, 50, 64, 43, BASIC_ENERGY);
 
             this.initMoves();
-
-            this.typeEff.addTypeEff(Type.FIRE, 0.5);
-            this.typeEff.addTypeEff(Type.WATER, 0.5);
-            this.typeEff.addTypeEff(Type.ELECTRIC, 2);
-            this.typeEff.addTypeEff(Type.GRASS, 2);
-            this.typeEff.addTypeEff(Type.ICE, 0.5);
-            this.typeEff.addTypeEff(Type.STEEL, 0.5);
+            this.typeEff.create();
         }
     }
 
@@ -281,8 +248,7 @@ public class PKMNDB implements IEnergyValues
             this.setDefaultStats(Type.WATER, Type.WATER, 59, 63, 80, 65, 80, 58, STAGE1_ENERGY);
 
             this.initMoves();
-
-            this.typeEff.copyEffMap(new Squirtle());
+            this.typeEff.create();
         }
     }
 
@@ -294,10 +260,8 @@ public class PKMNDB implements IEnergyValues
             this.setDefaultStats(Type.WATER, Type.WATER, 79, 83, 100, 85, 105, 78, STAGE2_ENERGY);
 
             this.initMoves();
-
             this.addMega(EnumPokemon.MEGA_BLASTOISE);
-
-            this.typeEff.copyEffMap(new Squirtle());
+            this.typeEff.create();
         }
     }
 
@@ -309,8 +273,7 @@ public class PKMNDB implements IEnergyValues
             this.setDefaultStats(Type.WATER, Type.WATER, 79, 103, 120, 135, 115, 78, MEGA_S2_ENERGY);
 
             this.initMoves();
-
-            this.typeEff.copyEffMap(new Squirtle());
+            this.typeEff.create();
         }
     }
 }
